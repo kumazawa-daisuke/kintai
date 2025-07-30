@@ -1,0 +1,123 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: #fafafa;
+    font-family: "Meiryo", "Hiragino Sans", Arial, sans-serif;
+    color: #222;
+}
+
+.site-header {
+    width: 100%;
+    background: #000;
+    margin: 0;
+}
+
+.header-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    height: 70px;
+    justify-content: space-between;
+    padding: 0 36px;
+}
+
+.logo-link {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.logo-img {
+    height: 38px;
+    width: auto;
+    display: block;
+}
+
+.global-nav {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.global-nav ul {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    gap: 32px;
+    /* ←ナビ間の間隔を均等に */
+}
+
+.global-nav li {
+    display: flex;
+    align-items: center;
+}
+
+.global-nav a,
+.global-nav .logout-btn {
+    color: #fff;
+    background: none;
+    border: none;
+    font-weight: bold;
+    font-size: 1rem;
+    text-decoration: none;
+    cursor: pointer;
+    transition: opacity 0.2s, background 0.2s, color 0.2s;
+    padding: 6px 18px;
+    border-radius: 8px;
+    outline: none;
+}
+
+.global-nav a:hover,
+.global-nav .logout-btn:hover {
+    background: #fff;
+    color: #111;
+    opacity: 1;
+}
+
+.logout-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font: inherit;
+    cursor: pointer;
+    padding: 6px 18px;
+    border-radius: 8px;
+}
+
+/* ログアウトボタンのデフォルト状態も明るく見せる */
+.global-nav .logout-btn {
+    background: none !important;
+    color: #fff !important;
+    opacity: 1 !important;
+}
+
+/* ホバー時の挙動を完全に合わせる */
+.global-nav a:hover,
+.global-nav .logout-btn:hover {
+    background: #fff !important;
+    color: #111 !important;
+    opacity: 1 !important;
+}
+
+@media (max-width: 850px) {
+    .header-inner {
+        padding: 0 14px;
+    }
+
+    .global-nav ul {
+        gap: 14px;
+    }
+
+    .global-nav a,
+    .global-nav .logout-btn {
+        font-size: 0.96rem;
+        padding: 5px 10px;
+    }
+
+    .logo-img {
+        height: 28px;
+    }
+}

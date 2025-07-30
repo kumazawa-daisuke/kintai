@@ -1,0 +1,256 @@
+body {
+    background: #fafafa;
+}
+
+.attendance-detail-bg {
+    min-height: 100vh;
+    padding: 48px 0;
+    background: #fafafa;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.attendance-detail-title-area {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto 0 auto;
+}
+
+.attendance-detail-title {
+    font-size: 32px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    border-left: 4px solid #222;
+    padding-left: 20px;
+    margin-bottom: 34px;
+}
+
+.attendance-detail-container {
+    width: 100%;
+    max-width: 800px;
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 1px 8px #0001;
+    padding: 54px 60px 44px 60px;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+.attendance-detail-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0px;
+    min-height: 76px;
+}
+
+.attendance-detail-label {
+    width: 160px;
+    color: #737373;
+    font-weight: bold;
+    font-size: 22px;
+    flex-shrink: 0;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    min-height: 76px;
+    line-height: 1;
+}
+
+/* 2カラム */
+.value-2col {
+    display: flex;
+    width: 100%;
+    padding: 0 40px;
+    font-size: 25px;
+    font-weight: bold;
+    color: #222;
+    min-height: 76px;
+    align-items: center;
+}
+
+.value-2col .col-left {
+    flex: 1;
+    text-align: left;
+    display: flex;
+    align-items: center;
+}
+
+.value-2col .col-right {
+    flex: 1;
+    text-align: right;
+    display: flex;
+    align-items: center;
+}
+
+.value-2col .col-left span,
+.value-2col .col-right span {
+    width: 100%;
+    font-size: inherit;
+    font-weight: inherit;
+    color: inherit;
+    display: block;
+}
+
+/* 3カラム（中央“～”） */
+.value-3col {
+    display: grid;
+    grid-template-columns: 1fr 60px 1fr;
+    align-items: center;
+    width: 100%;
+    padding: 0 40px;
+    font-size: 25px;
+    font-weight: bold;
+    color: #222;
+    min-height: 76px;
+    box-sizing: border-box;
+}
+
+.value-3col .col-left {
+    justify-self: left;
+    text-align: left;
+    width: 100%;
+    padding-left: 0;
+}
+
+.value-3col .col-tilde {
+    text-align: center;
+    color: #666;
+    font-size: 24px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    justify-self: center;
+}
+
+.value-3col .col-right {
+    justify-self: right;
+    /* ←右揃えに修正 */
+    text-align: right;
+    /* ←右揃えに修正 */
+    width: 100%;
+    padding-right: 0;
+}
+
+.value-3col .col-left span,
+.value-3col .col-right span {
+    display: block;
+    width: 100%;
+}
+
+.attendance-detail-divider {
+    height: 2.5px;
+    background: #e5e5e5;
+    width: calc(100% + 120px);
+    margin: 0 -60px 30px -60px;
+    border-radius: 1px;
+}
+
+/* 備考 */
+.note-row {
+    align-items: center;
+    min-height: 76px;
+}
+
+/* ボタン */
+.attendance-detail-btn-block-outer {
+    width: 100%;
+    max-width: 800px;
+    margin: 14px auto 0 auto;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.attendance-detail-btn-block.center-btn {
+    justify-content: center;
+    margin-top: 32px;
+}
+
+.edit-btn,
+.edit-btn.large-btn {
+    background: #000;
+    color: #fff;
+    font-size: 26px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    padding: 14px 54px;
+    cursor: pointer;
+    transition: background 0.2s;
+    box-shadow: 0 2px 6px #0001;
+    letter-spacing: 2px;
+}
+
+.edit-btn:hover,
+.edit-btn.large-btn:hover {
+    background: #444;
+}
+
+.error-box {
+    margin-bottom: 16px;
+}
+
+.error-list {
+    margin: 0;
+}
+
+.error-list-item {
+    color: #d00;
+}
+
+/* --- スマホ対応 --- */
+@media (max-width: 900px) {
+
+    .attendance-detail-title-area,
+    .attendance-detail-container,
+    .attendance-detail-btn-block,
+    .attendance-detail-btn-block-outer {
+        max-width: 100%;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .attendance-detail-title {
+        font-size: 20px;
+        padding-left: 7px;
+    }
+
+    .attendance-detail-label {
+        font-size: 15px;
+        width: 100px;
+        min-height: 50px;
+    }
+
+    .attendance-detail-row,
+    .value-2col,
+    .value-3col,
+    .col-left,
+    .col-right {
+        min-height: 50px;
+        font-size: 16px;
+    }
+
+    .col-tilde {
+        width: 20px !important;
+        min-width: 20px !important;
+        font-size: 17px;
+        letter-spacing: 1px;
+    }
+
+    .attendance-detail-divider {
+        margin: 0 -6px 16px -6px;
+        width: calc(100% + 12px);
+    }
+
+    .attendance-detail-btn-block-outer {
+        max-width: 100%;
+        padding-right: 0;
+        margin: 10px auto 0 auto;
+        font-size: 13px;
+    }
+
+    .edit-btn,
+    .edit-btn.large-btn {
+        font-size: 17px;
+        padding: 10px 20px;
+    }
+}

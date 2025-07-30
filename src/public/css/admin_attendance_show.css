@@ -1,0 +1,240 @@
+body {
+    background: #fafafa;
+}
+
+.attendance-detail-bg {
+    min-height: 100vh;
+    padding: 48px 0;
+    background: #fafafa;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* タイトル/白枠/ボタン すべて800px幅 */
+.attendance-detail-title-area {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto 0 auto;
+}
+
+.attendance-detail-title {
+    font-size: 32px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    border-left: 4px solid #222;
+    padding-left: 20px;
+    margin-bottom: 34px;
+}
+
+.attendance-detail-container {
+    width: 100%;
+    max-width: 800px;
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 1px 8px #0001;
+    padding: 54px 60px 44px 60px;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+.attendance-detail-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0px;
+    gap: 0;
+}
+
+.attendance-detail-label {
+    width: 160px;
+    color: #333;
+    font-weight: bold;
+    font-size: 22px;
+    flex-shrink: 0;
+    letter-spacing: 0.5px;
+}
+
+.attendance-detail-value {
+    flex: 1;
+    background: #fff;
+    border-radius: 8px;
+    padding: 16px 40px 16px 40px;
+    font-size: 22px;
+    font-weight: bold;
+    min-height: 32px;
+    box-sizing: border-box;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 48px;
+}
+
+.date-table {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-left: -30px;
+    gap: 35px;
+}
+
+.date-cell {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.date-cell.year {
+    flex: 0 0 47%;
+    text-align: center;
+    font-size: 25px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.date-cell.day {
+    flex: 0 0 47%;
+    text-align: center;
+    font-size: 25px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    margin-left: 0;
+}
+
+.time-fields {
+    display: flex;
+    align-items: center;
+    gap: 38px;
+}
+
+.input-time,
+.input-textarea {
+    border: 1.5px solid #ccc;
+    border-radius: 5px;
+    padding: 10px 18px;
+    font-size: 22px;
+    background: #fff;
+    font-weight: bold;
+}
+
+.input-time {
+    width: 120px;
+}
+
+.input-textarea {
+    width: 100%;
+    min-height: 60px;
+    max-width: 100%;
+    font-family: inherit;
+    font-size: 20px;
+    resize: vertical;
+    font-weight: bold;
+}
+
+.time-tilde {
+    margin: 0 24px;
+    font-size: 24px;
+    color: #666;
+    font-weight: bold;
+}
+
+.attendance-detail-divider {
+    height: 2.5px;
+    background: #e5e5e5;
+    width: calc(100% + 120px);
+    margin: 0 -60px 30px -60px;
+    border-radius: 1px;
+}
+
+.attendance-detail-btn-block {
+    width: 100%;
+    max-width: 800px;
+    margin: 36px auto 0 auto;
+    /* 上に余白を空けて下げる */
+    display: flex;
+    justify-content: flex-end;
+    /* 右端揃え */
+    box-sizing: border-box;
+    background: transparent;
+}
+
+.edit-btn {
+    background: #000000;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 24px;
+    font-weight: bold;
+    padding: 12px 58px;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-top: 8px;
+}
+
+.edit-btn:hover {
+    background: #666;
+}
+
+.date-cell.year,
+.date-cell.day {
+    font-size: 25px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    width: 120px;
+    text-align: center;
+}
+
+.error-item {
+    color: red;
+    font-weight: bold;
+}
+
+/* スマホ対応 */
+@media (max-width: 900px) {
+
+    .attendance-detail-title-area,
+    .attendance-detail-container,
+    .attendance-detail-btn-block {
+        max-width: 100%;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .attendance-detail-title {
+        font-size: 20px;
+        padding-left: 7px;
+    }
+
+    .attendance-detail-label {
+        font-size: 15px;
+        width: 100px;
+    }
+
+    .attendance-detail-value {
+        font-size: 15px;
+        padding: 12px 6px;
+        gap: 20px;
+    }
+
+    .date-table {
+        margin-left: 6px;
+        margin-right: 6px;
+    }
+
+    .date-cell.year,
+    .date-cell.day {
+        font-size: 16px;
+    }
+
+    .attendance-detail-divider {
+        margin: 0 -6px 16px -6px;
+        width: calc(100% + 12px);
+    }
+
+    .edit-btn {
+        font-size: 14px;
+        padding: 8px 18px;
+    }
+}

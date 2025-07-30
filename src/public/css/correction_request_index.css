@@ -1,0 +1,138 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: #f4f4f4;
+    font-family: "Meiryo", "Hiragino Sans", Arial, sans-serif;
+    color: #222;
+}
+
+.request-list-bg {
+    min-height: 100vh;
+    background: #f4f4f4;
+}
+
+.request-list-container {
+    max-width: 900px;
+    margin: 40px auto 0 auto;
+    padding: 0 0 36px 0;
+}
+
+.request-list-title {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 36px;
+    letter-spacing: 1px;
+    border-left: 4px solid #222;
+    padding-left: 16px;
+}
+
+.request-list-tabs {
+    display: flex;
+    gap: 38px;
+    margin-bottom: 12px;
+    padding-left: 6px;
+}
+
+.request-tab {
+    font-weight: 700;
+    font-size: 18px;
+    color: #888;
+    background: #f4f4f4;
+    padding: 10px 52px;
+    border-radius: 12px 12px 0 0;
+    cursor: pointer;
+    border: none;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+}
+
+.request-tab.active {
+    color: #222;
+}
+
+.request-list-divider {
+    height: 2px;
+    background: #222;
+    width: 100%;
+    margin: 0 0 36px 0;
+    border-radius: 2px;
+}
+
+.request-table-wrapper {
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 3px 12px #0001;
+    padding: 0 0 16px;
+    overflow-x: auto;
+}
+
+.request-table {
+    width: 100%;
+    min-width: 820px;
+    border-collapse: collapse;
+    font-weight: 600;
+    font-size: 16px;
+    color: #737373;
+}
+
+.request-table th,
+.request-table td {
+    padding: 14px 0;
+    text-align: center;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.request-table th {
+    font-weight: 600;
+    font-size: 16px;
+    color: #737373;
+}
+
+.request-table tr:last-child td {
+    border-bottom: none;
+}
+
+.status-badge {
+    font-weight: bold;
+    padding: 4px 18px;
+    border-radius: 9px;
+    font-size: 16px;
+    display: inline-block;
+    min-width: 80px;
+}
+
+.detail-link {
+    color: #222;
+    padding: 3px 16px;
+    border-radius: 7px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background 0.2s;
+}
+
+.detail-link:hover {
+    background: #bbb;
+}
+
+.no-requests {
+    color: #bbb;
+    padding: 36px 0;
+    font-size: 17px;
+    text-align: center;
+}
+
+.text-muted {
+    color: #bbb;
+}
+
+@media (max-width: 1000px) {
+    .request-list-container {
+        padding: 18px 8px;
+        max-width: 100%;
+    }
+
+    .request-table {
+        font-size: 15px;
+        min-width: 680px;
+    }
+}

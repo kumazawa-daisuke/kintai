@@ -1,0 +1,108 @@
+:root {
+    --attendance-content-width: 800px;
+}
+
+body {
+    background: #f4f4f4;
+    font-family: "Meiryo", "Hiragino Sans", Arial, sans-serif;
+    color: #222;
+}
+
+.attendance-list-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* タイトル */
+.attendance-list-title {
+    font-size: 26px;
+    font-weight: bold;
+    margin-bottom: 28px;
+    letter-spacing: 1px;
+    border-left: 5px solid #111;
+    padding-left: 12px;
+    width: var(--attendance-content-width);
+    box-sizing: border-box;
+}
+
+/* テーブル外枠 */
+.attendance-table-wrapper {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 12px #0001;
+    overflow-x: auto;
+    width: var(--attendance-content-width);
+    margin-top: 18px;
+    box-sizing: border-box;
+}
+
+.attendance-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 15px;
+    min-width: 560px;
+}
+
+.attendance-table th,
+.attendance-table td {
+    padding: 11px 0;
+    text-align: center;
+    border-bottom: 1px solid #e5e5e5;
+    font-weight: 600;
+    font-size: 16px;
+    color: #737373;
+}
+
+.attendance-table th {
+    background: #f8f8f8;
+}
+
+.attendance-table tr:last-child td {
+    border-bottom: none;
+}
+
+.detail-link {
+    color: #111;
+    padding: 3px 16px;
+    border-radius: 7px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background 0.18s, color 0.18s;
+}
+
+.detail-link:hover {
+    background: #b7d3ff;
+    color: #111;
+}
+
+.no-data {
+    text-align: center;
+    color: #aaa;
+    padding: 20px 0;
+}
+
+/* レスポンシブ対応 */
+@media screen and (max-width: 850px) {
+    :root {
+        --attendance-content-width: 98vw;
+    }
+
+    .attendance-list-title,
+    .attendance-table-wrapper {
+        max-width: 100vw;
+        min-width: 0;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .attendance-table {
+        font-size: 13px;
+        min-width: 360px;
+    }
+
+    .attendance-list-title {
+        font-size: 18px;
+        padding-left: 6px;
+    }
+}

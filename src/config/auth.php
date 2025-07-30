@@ -36,9 +36,15 @@ return [
     */
 
     'guards' => [
+        // 既存
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
+        ],
+        // 管理者
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'admins',
         ],
     ],
 
@@ -64,11 +70,10 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
-
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+        'admins' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Admin::class, // 管理者用モデル
+        ],
     ],
 
     /*

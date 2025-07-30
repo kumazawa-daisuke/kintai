@@ -2,43 +2,44 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use Notifiable;
+    use HasFactory;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'name',
         'email',
         'password',
+        'role',
+        'email_verified_at',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+    // 勤怠（1対多）
+    public function attendances()
+    {
+        return $this->hasMany(Attendance::class);
+    }
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    // 勤怠修正申請（1対多：申請者として）
+    public function correctionRequests()
+    {
+        return $this->hasMany(CorrectionRequest::class, 'user_id');
+    }
+
+    // 承認した修正申請
+    public function approvedRequests()
+    {
+        return $this->hasMany(CorrectionRequest::class, 'approved_by');
+    }
+
+    public function getIsAdminAttribute()
+    {
+        return $this->role === 'admin'; // role カラムが 'admin' の場合
+    }
 }

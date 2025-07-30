@@ -1,0 +1,74 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Meiryo", "Hiragino Sans", Arial, sans-serif;
+    color: #222;
+}
+
+.site-header {
+    width: 100%;
+    background: #000;
+    margin: 0;
+}
+
+.header-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    height: 70px;
+    justify-content: space-between;
+}
+
+.logo-link {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.logo-img {
+    height: 38px;
+    width: auto;
+    display: block;
+}
+
+.global-nav ul {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.global-nav li {
+    margin-left: 32px;
+    display: flex;
+    align-items: center;
+}
+
+.global-nav a,
+.global-nav .logout-btn {
+    color: #fff;
+    background: none;
+    border: none;
+    font-weight: bold;
+    font-size: 1rem;
+    text-decoration: none;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    padding: 0;
+}
+
+.global-nav a:hover,
+.global-nav .logout-btn:hover {
+    opacity: 0.7;
+}
+
+.logout-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font: inherit;
+    cursor: pointer;
+    padding: 0;
+}

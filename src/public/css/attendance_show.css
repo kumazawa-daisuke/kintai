@@ -1,0 +1,279 @@
+body {
+    background: #f0eff2;
+}
+
+.attendance-detail-bg {
+    min-height: 100vh;
+    padding: 48px 0;
+    background: #fafafa;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.attendance-detail-title-area {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto 0 auto;
+}
+
+.attendance-detail-title {
+    font-size: 32px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    border-left: 4px solid #222;
+    padding-left: 20px;
+    margin-bottom: 34px;
+}
+
+.attendance-detail-container {
+    width: 100%;
+    max-width: 800px;
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 1px 8px #0001;
+    padding: 54px 60px 44px 60px;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+.attendance-detail-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0px;
+    gap: 0;
+}
+
+.attendance-detail-label {
+    width: 160px;
+    color: #737373;
+    font-weight: bold;
+    font-size: 22px;
+    flex-shrink: 0;
+    letter-spacing: 0.5px;
+}
+
+.attendance-detail-value {
+    flex: 1;
+    background: #fff;
+    border-radius: 8px;
+    padding: 16px 40px 16px 40px;
+    font-size: 22px;
+    font-weight: bold;
+    min-height: 32px;
+    box-sizing: border-box;
+    border: none;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.name-value {
+    padding-left: 60px;
+}
+
+.date-table {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+}
+
+.date-cell {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.date-cell.year {
+    text-align: left;
+    justify-self: start;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.date-cell.day {
+    text-align: right;
+    justify-self: end;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.time-fields {
+    display: flex;
+    align-items: center;
+    gap: 38px;
+}
+
+.input-time,
+.input-textarea {
+    border: 1.5px solid #ccc;
+    border-radius: 5px;
+    padding: 10px 18px;
+    font-size: 22px;
+    background: #fff;
+    font-weight: bold;
+    color: #222;
+}
+
+.input-time {
+    width: 120px;
+}
+
+.input-time:disabled,
+.input-textarea:disabled {
+    background: #f8f8f8;
+    color: #aaa;
+}
+
+.input-textarea {
+    width: 100%;
+    min-height: 60px;
+    max-width: 100%;
+    font-family: inherit;
+    font-size: 20px;
+    resize: vertical;
+    font-weight: bold;
+    vertical-align: top;
+    text-align: left;
+}
+
+.time-tilde {
+    margin: 0 24px;
+    font-size: 24px;
+    color: #666;
+    font-weight: bold;
+}
+
+.attendance-detail-divider {
+    height: 2.5px;
+    background: #e5e5e5;
+    width: calc(100% + 120px);
+    margin: 0 -60px 30px -60px;
+    border-radius: 1px;
+}
+
+.attendance-detail-btn-block-outer {
+    width: 100%;
+    max-width: 800px;
+    margin: 14px auto 0 auto;
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* Figma風の大きめ中央黒ボタン */
+.attendance-detail-btn-block.center-btn {
+    justify-content: center;
+    margin-top: 32px;
+}
+
+.edit-btn,
+.edit-btn.large-btn {
+    background: #000;
+    color: #fff;
+    font-size: 26px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    padding: 14px 54px;
+    cursor: pointer;
+    transition: background 0.2s;
+    box-shadow: 0 2px 6px #0001;
+    letter-spacing: 2px;
+}
+
+.edit-btn:hover,
+.edit-btn.large-btn:hover {
+    background: #444;
+}
+
+/* 承認待ち時のメッセージ */
+.pending-msg-outside.right-msg {
+    width: 100%;
+    max-width: 800px;
+    margin: 24px auto 0 auto;
+    text-align: right;
+    padding-right: 40px;
+}
+
+.correction-waiting-alert {
+    color: #e33;
+    font-size: 17px;
+    font-weight: bold;
+    letter-spacing: 1.2px;
+    background: none;
+    padding: 0 4px;
+    text-align: right;
+}
+
+/* エラーリスト */
+.error-box {
+    margin-bottom: 16px;
+}
+
+.error-list {
+    margin: 0;
+}
+
+.error-list-item {
+    color: #d00;
+}
+
+/* スマホ対応 */
+@media (max-width: 900px) {
+
+    .attendance-detail-title-area,
+    .attendance-detail-container,
+    .attendance-detail-btn-block,
+    .attendance-detail-btn-block-outer {
+        max-width: 100%;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .attendance-detail-title {
+        font-size: 20px;
+        padding-left: 7px;
+    }
+
+    .attendance-detail-label {
+        font-size: 15px;
+        width: 100px;
+    }
+
+    .attendance-detail-value {
+        font-size: 15px;
+        padding: 12px 6px;
+        gap: 20px;
+    }
+
+    .date-table {
+        margin-left: 6px;
+        margin-right: 6px;
+    }
+
+    .date-cell.year,
+    .date-cell.day {
+        font-size: 16px;
+    }
+
+    .attendance-detail-divider {
+        margin: 0 -6px 16px -6px;
+        width: calc(100% + 12px);
+    }
+
+    .attendance-detail-btn-block-outer,
+    .pending-msg-outside.right-msg {
+        max-width: 100%;
+        padding-right: 0;
+        margin: 10px auto 0 auto;
+        font-size: 13px;
+    }
+
+    .edit-btn,
+    .edit-btn.large-btn {
+        font-size: 17px;
+        padding: 10px 20px;
+    }
+}

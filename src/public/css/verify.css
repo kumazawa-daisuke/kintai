@@ -1,0 +1,87 @@
+.verify-content {
+    max-width: 600px;
+    margin: 80px auto 0;
+    text-align: center;
+    padding: 0 16px;
+}
+
+.verify-message {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 28px;
+    line-height: 1.7;
+}
+
+.verify-action {
+    margin-bottom: 18px;
+    display: flex;
+    justify-content: center;
+}
+
+.verify-btn {
+    display: block;
+    width: 200px;
+    padding: 13px 0;
+    font-size: 18px;
+    font-weight: bold;
+    background: #d9d9d9;
+    border: 1px solid #000;
+    border-radius: 8px;
+    color: #222;
+    transition: background 0.15s, color 0.15s;
+    cursor: pointer;
+    margin-bottom: 14px;
+    text-decoration: none;
+}
+
+.verify-btn:hover {
+    background: #f8f8f8;
+    color: #1a73e8;
+}
+
+.verify-resend-form {
+    margin-top: 18px;
+}
+
+.verify-resend-link {
+    background: none;
+    border: none;
+    color: #1a73e8;
+    cursor: pointer;
+    font-size: 15px;
+    text-decoration: underline;
+    padding: 0;
+}
+
+.alert-message {
+    color: #1a73e8;
+    font-size: 16px;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+/* ---------- レスポンシブ対応 ---------- */
+@media (max-width: 480px) {
+    .verify-content {
+        margin-top: 40px;
+    }
+
+    .verify-message {
+        font-size: 16px;
+        margin-bottom: 20px;
+    }
+
+    .verify-btn {
+        width: 100%;
+        font-size: 16px;
+        padding: 12px 0;
+    }
+
+    .verify-resend-link {
+        font-size: 14px;
+    }
+
+    .alert-message {
+        font-size: 14px;
+    }
+}
