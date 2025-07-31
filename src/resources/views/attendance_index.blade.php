@@ -8,12 +8,6 @@
     $current = \Carbon\Carbon::createFromFormat('Y-m', $currentMonth);
     $prevMonth = $current->copy()->subMonth()->format('Y-m');
     $nextMonth = $current->copy()->addMonth()->format('Y-m');
-
-    function displayTime($time) {
-        return (!empty($time) && preg_match('/^\d{2}:\d{2}$/', $time))
-            ? \Carbon\Carbon::createFromFormat('H:i', $time)->format('G:i')
-            : (!empty($time) ? $time : '');
-    }
 @endphp
 
 @section('content')
@@ -48,20 +42,16 @@
             </thead>
             <tbody>
                 @foreach($records as $row)
-                    @php
-                        $attendance = $row['attendance'];
-                        $date = $row['date'];
-                    @endphp
                     <tr>
-                        <td>{{ $date->format('m/d') }}({{ ['日','月','火','水','木','金','土'][$date->dayOfWeek] }})</td>
-                        <td>{{ $attendance && $attendance->clock_in ? \Carbon\Carbon::parse($attendance->clock_in)->format('H:i') : '' }}</td>
-                        <td>{{ $attendance && $attendance->clock_out ? \Carbon\Carbon::parse($attendance->clock_out)->format('H:i') : '' }}</td>
-                        <td>{{ displayTime($row['break_time']) }}</td>
-                        <td>{{ displayTime($row['total_time']) }}</td>
+                        <td>{{ $row['date']->format('m/d') }}({{ ['日','月','火','水','木','金','土'][$row['date']->dayOfWeek] }})</td>
+                        <td>{{ $row['clock_in'] ?? '' }}</td>
+                        <td>{{ $row['clock_out'] ?? '' }}</td>
+                        <td>{{ $row['break_sum'] ?? '' }}</td>
+                        <td>{{ $row['work_sum'] ?? '' }}</td>
                         <td>
-                            <a href="{{ $attendance
-                                ? route('attendance.show', $attendance->id)
-                                : route('attendance.show', ['id' => 0, 'date' => $date->toDateString()]) }}"
+                            <a href="{{ $row['attendance']
+                                ? route('attendance.show', $row['attendance']->id)
+                                : route('attendance.show', ['id' => 0, 'date' => $row['date']->toDateString()]) }}"
                                 class="detail-link">
                                 詳細
                             </a>

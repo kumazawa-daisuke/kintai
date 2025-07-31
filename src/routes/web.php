@@ -34,7 +34,7 @@ Route::middleware(['auth'])->group(function () {
     })->name('verification.notice');
 
     // 認証メール再送
-    Route::post('/email/verification-notification', function (Request $request) {
+        Route::post('/email/verification-notification', function (Request $request) {
         $request->user()->sendEmailVerificationNotification();
         return back()->with('message', '認証メールを再送しました');
     })->name('verification.send');

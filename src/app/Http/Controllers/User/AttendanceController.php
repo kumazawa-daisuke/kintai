@@ -136,7 +136,7 @@ class AttendanceController extends Controller
         [$year, $month] = explode('-', $yearMonth);
 
         // 月初・月末
-        $firstDay = \Carbon\Carbon::create($year, $month, 1);
+        $firstDay = Carbon::create($year, $month, 1);
         $lastDay = $firstDay->copy()->endOfMonth();
 
         // その月の全日付リストを生成
@@ -147,35 +147,50 @@ class AttendanceController extends Controller
             $current->addDay();
         }
 
-        // 勤怠データを「日付=>勤怠」連想配列で用意
+        // 勤怠データを取得（dateをキーに）
         $attendances = Attendance::where('user_id', $user->id)
             ->whereBetween('date', [$firstDay->toDateString(), $lastDay->toDateString()])
-            ->where('status', '!=', 'off')   // ← 仮attendance除外
+            ->where('status', '!=', 'off')
             ->with('breakTimes')
             ->get()
             ->keyBy('date');
 
-        // Blade用に「[日付, 勤怠データ]」の配列を作成
+        // Blade用に整形データを作成
         $records = [];
         foreach ($dates as $date) {
             $attendance = $attendances->get($date->toDateString());
 
-            $break_time = null;
-            $total_time = null;
+            $clockIn = $clockOut = $breakSum = $workSum = null;
 
-            if ($attendance && $attendance->clock_in && $attendance->clock_out) {
-                // 再計算（モデルの関数を使用）
-                $attendance->recalculateTimes();
+            if ($attendance) {
+                if ($attendance->clock_in) {
+                    $clockIn = Carbon::parse($attendance->clock_in)->format('H:i');
+                }
+                if ($attendance->clock_out) {
+                    $clockOut = Carbon::parse($attendance->clock_out)->format('H:i');
+                }
 
-                $break_time = $attendance->break_time;
-                $total_time = $attendance->total_time;
+                // 再計算（break_time, total_time を生成）
+                if ($attendance->clock_in && $attendance->clock_out) {
+                    $attendance->recalculateTimes();
+
+                    $breakSum = $attendance->break_time
+                        ? Carbon::createFromFormat('H:i', $attendance->break_time)->format('G:i')
+                        : '';
+
+                    $workSum = $attendance->total_time
+                        ? Carbon::createFromFormat('H:i', $attendance->total_time)->format('G:i')
+                        : '';
+                }
             }
 
             $records[] = [
-                'date' => $date,
-                'attendance' => $attendance,
-                'break_time' => $break_time,
-                'total_time' => $total_time,
+                'date'        => $date,
+                'attendance'  => $attendance,
+                'clock_in'    => $clockIn,
+                'clock_out'   => $clockOut,
+                'break_sum'   => $breakSum,
+                'work_sum'    => $workSum,
             ];
         }
 

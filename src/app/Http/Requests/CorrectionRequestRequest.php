@@ -12,8 +12,8 @@ class CorrectionRequestRequest extends FormRequest
     {
         return [
             'reason'    => 'required|string|max:255',
-            'clock_in'  => ['required', 'regex:/^\d{2}:\d{2}(:\d{2})?$/'],
-            'clock_out' => ['required', 'regex:/^\d{2}:\d{2}(:\d{2})?$/'],
+            'clock_in'  => ['required', 'regex:/^(?:[01]\d|2[0-3]):[0-5]\d$/'],
+            'clock_out' => ['required', 'regex:/^(?:[01]\d|2[0-3]):[0-5]\d$/'],
         ];
     }
 

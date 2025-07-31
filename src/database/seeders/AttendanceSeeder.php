@@ -6,6 +6,7 @@ use Illuminate\Database\Seeder;
 use App\Models\Attendance;
 use App\Models\BreakTime;
 use Carbon\Carbon;
+use App\Models\User;
 
 class AttendanceSeeder extends Seeder
 {
@@ -13,38 +14,30 @@ class AttendanceSeeder extends Seeder
     {
         $faker = \Faker\Factory::create('ja_JP');
 
-        // 件数を20に増やす
-        for ($i = 1; $i <= 20; $i++) {
-            foreach ([1, 2] as $userId) {
-                // 日付は7月1日～7月20日
-                $date = Carbon::parse("2025-07-01")->addDays($i - 1);
+        $userIds = User::pluck('id')->toArray();
 
-                // 出勤・退勤時間を日ごとにランダム生成
-                $clockIn = (clone $date)->setTime(rand(8,10), [0,15,30,45][rand(0,3)]);
-                $workHours = rand(7,9); // 7〜9時間勤務
+        foreach ($userIds as $userId) {
+            for ($i = 1; $i <= 20; $i++) {
+                $date = Carbon::parse("2025-07-01")->addDays($i - 1);
+                $clockIn = (clone $date)->setTime(rand(8, 10), [0, 15, 30, 45][rand(0, 3)]);
+                $workHours = rand(7, 9);
                 $clockOut = (clone $clockIn)->copy()->addHours($workHours);
 
-                // 休憩回数を1〜3回でランダム
                 $breakCount = rand(1, 3);
                 $breakTotalMinutes = 0;
                 $breaks = [];
 
-                // 勤務時間の1/3〜1/2ぐらいのタイミングで休憩を挿入
-                $breakStart = (clone $clockIn)->addMinutes(rand(90,120));
+                $breakStart = (clone $clockIn)->addMinutes(rand(90, 120));
                 for ($b = 1; $b <= $breakCount; $b++) {
-                    // 各休憩の長さもばらつきを
                     $breakMinutes = rand(10, 50);
                     $breakEnd = (clone $breakStart)->addMinutes($breakMinutes);
-
-                    // 勤務時間内なら追加
                     if ($breakEnd < $clockOut) {
                         $breakTotalMinutes += $breakMinutes;
                         $breaks[] = [
                             'break_start' => $breakStart->format('H:i'),
                             'break_end'   => $breakEnd->format('H:i'),
                         ];
-                        // 次の休憩は+1〜2時間後
-                        $breakStart = (clone $breakEnd)->addMinutes(rand(60,120));
+                        $breakStart = (clone $breakEnd)->addMinutes(rand(60, 120));
                     }
                 }
 
@@ -60,7 +53,6 @@ class AttendanceSeeder extends Seeder
                     'status'     => 'finished'
                 ]);
 
-                // break_times登録
                 foreach ($breaks as $break) {
                     BreakTime::create([
                         'attendance_id' => $attendance->id,
