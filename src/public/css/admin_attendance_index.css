@@ -167,15 +167,12 @@ body {
 }
 
 input[type="date"]::-webkit-calendar-picker-indicator {
-    opacity: 0;
-    display: none;
-    pointer-events: none;
+    opacity: 0 ;
+    pointer-events: none ;
 }
 
-/* Firefox用 */
 input[type="date"]::-moz-calendar-picker-indicator {
     opacity: 0;
-    display: none;
     pointer-events: none;
 }
 

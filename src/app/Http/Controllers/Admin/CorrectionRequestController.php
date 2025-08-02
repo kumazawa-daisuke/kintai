@@ -42,7 +42,9 @@ class CorrectionRequestController extends Controller
         if ($request->breaks_after) {
             $attendance->save(); // attendance_idを取得するため先に保存
             $attendance->breakTimes()->delete();
-            $breaks = json_decode($request->breaks_after, true);
+
+            // ★ ここがポイント！json_decodeは不要
+            $breaks = $request->breaks_after;
             foreach ($breaks as $break) {
                 if (!empty($break['break_start']) || !empty($break['break_end'])) {
                     $attendance->breakTimes()->create([

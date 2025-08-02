@@ -80,3 +80,75 @@
 .login-link a:hover {
     text-decoration: underline;
 }
+
+/* 画面幅が600px以下のときの調整 */
+@media (max-width: 600px) {
+    .register-form {
+        max-width: 100%;
+        padding: 0 16px;
+        margin: 0 auto;
+        box-sizing: border-box;
+    }
+
+    .register-title {
+        font-size: 1.6rem;
+        margin-bottom: 1.5rem;
+        padding-left: 0;
+    }
+
+    .form-group label {
+        font-size: 0.9rem;
+    }
+
+    .form-group input[type="text"],
+    .form-group input[type="email"],
+    .form-group input[type="password"] {
+        height: 40px;
+        font-size: 1rem;
+        padding: 0 10px;
+    }
+
+    .register-btn {
+        height: 40px;
+        font-size: 1rem;
+        margin-top: 10px;
+    }
+
+    .login-link {
+        margin-top: 12px;
+        margin-bottom: 16px;
+    }
+
+    .login-link a {
+        font-size: 0.9rem;
+    }
+}
+
+/* 画面幅が360px以下のスマホなど超小型画面向け */
+@media (max-width: 360px) {
+    .register-title {
+        font-size: 1.4rem;
+        margin-bottom: 1.2rem;
+    }
+
+    .form-group label {
+        font-size: 0.85rem;
+    }
+
+    .form-group input[type="text"],
+    .form-group input[type="email"],
+    .form-group input[type="password"] {
+        height: 36px;
+        font-size: 0.95rem;
+    }
+
+    .register-btn {
+        height: 36px;
+        font-size: 0.95rem;
+        margin-top: 8px;
+    }
+
+    .login-link a {
+        font-size: 0.85rem;
+    }
+}

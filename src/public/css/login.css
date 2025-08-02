@@ -78,3 +78,45 @@
 .register-link a:hover {
     text-decoration: underline;
 }
+
+/* 画面幅が480px以下のときの調整 */
+@media (max-width: 480px) {
+    .login-form {
+        max-width: 100%;
+        /* 幅を画面いっぱいに */
+        padding: 0 12px;
+        /* 左右のパディングを少し減らす */
+        margin: 0 12px;
+        /* 画面端からの余白を確保 */
+        box-sizing: border-box;
+    }
+
+    .login-title {
+        font-size: 1.5rem;
+        /* フォントサイズを少し小さく */
+        margin-bottom: 1.5rem;
+        padding-left: 0;
+        /* もし余白あれば除去 */
+        text-align: center;
+        /* 中央寄せは維持 */
+    }
+
+    .form-group label,
+    .form-error,
+    .register-link {
+        font-size: 0.9rem;
+        /* ラベルやエラーメッセージも小さく */
+    }
+
+    .login-btn {
+        font-size: 1rem;
+        /* ボタン文字も少し小さく */
+        height: 38px;
+        /* ボタン高さ調整 */
+    }
+
+    .register-link {
+        margin-top: 12px;
+        /* 上マージンを調整 */
+    }
+}

@@ -46,8 +46,8 @@
                         <td>{{ $row['date']->format('m/d') }}({{ ['日','月','火','水','木','金','土'][$row['date']->dayOfWeek] }})</td>
                         <td>{{ $row['clock_in'] ?? '' }}</td>
                         <td>{{ $row['clock_out'] ?? '' }}</td>
-                        <td>{{ $row['break_sum'] ?? '' }}</td>
-                        <td>{{ $row['work_sum'] ?? '' }}</td>
+                        <td>{{ $row['attendance'] ? $row['attendance']->break_time_display : '' }}</td>
+                        <td>{{ $row['attendance'] ? $row['attendance']->total_time_display : '' }}</td>
                         <td>
                             <a href="{{ $row['attendance']
                                 ? route('attendance.show', $row['attendance']->id)

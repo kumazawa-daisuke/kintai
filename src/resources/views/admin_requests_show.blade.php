@@ -117,14 +117,16 @@
     </div>
     {{-- 承認ボタン --}}
     <div class="attendance-detail-btn-block-outer">
-        @if($request->status === 'pending')
         <div class="attendance-detail-btn-block center-btn">
             <form action="{{ route('admin.requests.approve', ['attendance_correct_request' => $request->id]) }}" method="POST">
                 @csrf
-                <button type="submit" class="edit-btn large-btn">承認</button>
+                @if($request->status === 'pending')
+                    <button type="submit" class="edit-btn large-btn">承認</button>
+                @else
+                    <button type="button" class="edit-btn large-btn approved-btn" disabled>承認済み</button>
+                @endif
             </form>
         </div>
-        @endif
     </div>
 </div>
 @endsection

@@ -84,4 +84,24 @@ body {
         margin: 32px auto;
         padding: 0 4vw;
     }
+
+    .admin-login-title {
+        font-size: 1.6rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .admin-login-form label {
+        font-size: 1rem;
+    }
+
+    .admin-login-form input[type="email"],
+    .admin-login-form input[type="password"] {
+        height: 36px;
+        font-size: 0.95rem;
+    }
+
+    .admin-login-btn {
+        height: 42px;
+        font-size: 1rem;
+    }
 }

@@ -277,3 +277,61 @@ body {
         padding: 10px 20px;
     }
 }
+
+@media (max-width: 600px) {
+    .attendance-detail-container {
+        width: 100%;
+        padding-left: 16px;
+        padding-right: 16px;
+        box-sizing: border-box;
+    }
+
+    .attendance-detail-row {
+        flex-wrap: wrap;
+    }
+
+    .attendance-detail-label {
+        width: 100%;
+        font-size: 14px;
+        margin-bottom: 4px;
+    }
+
+    .attendance-detail-value {
+        width: 100%;
+        font-size: 14px;
+        padding: 8px 12px;
+        min-height: auto;
+    }
+
+    .date-table {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        width: 100%;
+    }
+
+    .date-cell.year,
+    .date-cell.day {
+        font-size: 16px;
+    }
+
+    .input-time {
+        width: 100px;
+        font-size: 14px;
+        padding: 6px 8px;
+    }
+
+    .input-textarea {
+        font-size: 14px;
+        padding: 8px 12px;
+    }
+
+    .time-tilde {
+        margin: 0 8px;
+        font-size: 18px;
+    }
+
+    .attendance-detail-divider {
+        margin: 0 -16px 20px -16px;
+        width: calc(100% + 32px);
+    }
+}

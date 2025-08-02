@@ -13,7 +13,7 @@
         @if ($errors->any())
             <div class="alert alert-danger error-box">
                 <ul class="error-list">
-                    @foreach ($errors->all() as $error)
+                    @foreach (collect($errors->all())->unique() as $error)
                         <li class="error-list-item">{{ $error }}</li>
                     @endforeach
                 </ul>
@@ -21,29 +21,29 @@
         @endif
 
         @php
-            $pendingRequest = $attendance->correctionRequests()
-                ->where('status', 'pending')
-                ->orderByDesc('created_at')
-                ->first();
-            $isPending = !!$pendingRequest;
+            // 承認待ち申請があればそちらを優先
+            $pendingRequest = $attendance->correctionRequests->where('status', 'pending')->sortByDesc('created_at')->first();
+            $isPending = !is_null($pendingRequest);
 
-            // 休憩配列をセット
+            $clockIn = $isPending ? ($pendingRequest->clock_in_after ?? '') : ($attendance->clock_in ?? '');
+            $clockOut = $isPending ? ($pendingRequest->clock_out_after ?? '') : ($attendance->clock_out ?? '');
+
+            // 休憩履歴（申請中のものがあればそちら優先）
+            $breaks = [];
             if ($isPending && !empty($pendingRequest->breaks_after)) {
-                $breaks = collect(json_decode($pendingRequest->breaks_after, true));
-            } else {
-                $breaks = $attendance->breakTimes ? $attendance->breakTimes->sortBy('break_start')->values() : collect();
-                // オブジェクト→配列化（フォーム用）
-                $breaks = $breaks->map(function($b) {
+                $breaks = is_array($pendingRequest->breaks_after)
+                    ? $pendingRequest->breaks_after
+                    : json_decode($pendingRequest->breaks_after, true);
+            } elseif ($attendance->breakTimes->count()) {
+                $breaks = $attendance->breakTimes->sortBy('break_start')->map(function($b) {
                     return [
-                        'break_start' => $b->break_start ?? '',
-                        'break_end' => $b->break_end ?? '',
+                        'break_start' => $b->break_start,
+                        'break_end' => $b->break_end,
                     ];
-                });
+                })->toArray();
             }
-
             // 入力済み＋1行（空欄）を用意
-            $breakArr = $breaks->toArray();
-            $breakRowCount = max(1, count($breakArr) + 1);
+            $breakRowCount = max(1, count($breaks) + 1);
         @endphp
 
         <form action="{{ route('correction_request.store') }}" method="POST" class="attendance-detail-form" id="correction-request">
@@ -76,11 +76,11 @@
                 <div class="attendance-detail-label">出勤・退勤</div>
                 <div class="attendance-detail-value time-fields">
                     <input type="time" class="input-time" name="clock_in"
-                        value="{{ $isPending ? ($pendingRequest->clock_in_after ?? '') : ($attendance->clock_in ?? '') }}"
+                        value="{{ old('clock_in', $clockIn ? \Carbon\Carbon::parse($clockIn)->format('H:i') : '') }}"
                         @if($isPending) disabled @endif>
                     <span class="time-tilde">～</span>
                     <input type="time" class="input-time" name="clock_out"
-                        value="{{ $isPending ? ($pendingRequest->clock_out_after ?? '') : ($attendance->clock_out ?? '') }}"
+                        value="{{ old('clock_out', $clockOut ? \Carbon\Carbon::parse($clockOut)->format('H:i') : '') }}"
                         @if($isPending) disabled @endif>
                 </div>
             </div>
@@ -89,18 +89,14 @@
             @for($i = 0; $i < $breakRowCount; $i++)
                 <div class="attendance-detail-row">
                     <div class="attendance-detail-label">
-                        @if($i === 0)
-                            休憩
-                        @else
-                            休憩{{ $i+1 }}
-                        @endif
+                        {{ $i === 0 ? '休憩' : '休憩' . ($i+1) }}
                     </div>
                     <div class="attendance-detail-value time-fields">
                         <input
                             type="time"
                             class="input-time"
                             name="break_times[{{ $i }}][break_start]"
-                            value="{{ old('break_times.'.$i.'.break_start', $breakArr[$i]['break_start'] ?? '') }}"
+                            value="{{ old('break_times.'.$i.'.break_start', isset($breaks[$i]['break_start']) && $breaks[$i]['break_start'] ? \Carbon\Carbon::parse($breaks[$i]['break_start'])->format('H:i') : '') }}"
                             @if($isPending) disabled @endif
                         >
                         <span class="time-tilde">～</span>
@@ -108,7 +104,7 @@
                             type="time"
                             class="input-time"
                             name="break_times[{{ $i }}][break_end]"
-                            value="{{ old('break_times.'.$i.'.break_end', $breakArr[$i]['break_end'] ?? '') }}"
+                            value="{{ old('break_times.'.$i.'.break_end', isset($breaks[$i]['break_end']) && $breaks[$i]['break_end'] ? \Carbon\Carbon::parse($breaks[$i]['break_end'])->format('H:i') : '') }}"
                             @if($isPending) disabled @endif
                         >
                     </div>
@@ -120,17 +116,12 @@
             <div class="attendance-detail-row">
                 <div class="attendance-detail-label">備考</div>
                 <div class="attendance-detail-value">
-                    <textarea class="input-textarea" name="reason" rows="2" @if($isPending) readonly @endif>{{ $isPending ? ($pendingRequest->reason_after ?? $pendingRequest->reason ?? '') : old('reason', $attendance->reason ?? '') }}</textarea>
+                    <textarea class="input-textarea" name="reason" rows="2" @if($isPending) disabled @endif>{{ old('reason', $isPending ? ($pendingRequest->reason_after ?? $pendingRequest->reason ?? '') : ($attendance->reason ?? '')) }}</textarea>
                 </div>
             </div>
             {{-- Hiddenパラメータ --}}
-            @if(!empty($attendance->id))
-                <input type="hidden" name="attendance_id" value="{{ $attendance->id }}">
-                <input type="hidden" name="date" value="{{ $attendance->date }}">
-            @else
-                <input type="hidden" name="attendance_id" value="">
-                <input type="hidden" name="date" value="{{ $attendance->date ?? (request('date') ?? '') }}">
-            @endif
+            <input type="hidden" name="attendance_id" value="{{ $attendance->id ?? '' }}">
+            <input type="hidden" name="date" value="{{ $attendance->date ?? (request('date') ?? '') }}">
             <input type="hidden" name="request_type" value="edit">
         </form>
     </div>

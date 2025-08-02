@@ -13,7 +13,7 @@
         @if ($errors->any())
             <div class="alert alert-danger">
                 <ul class="error-list">
-                    @foreach ($errors->all() as $error)
+                    @foreach (collect($errors->all())->unique() as $error)
                         <li class="error-item">{{ $error }}</li>
                     @endforeach
                 </ul>
@@ -33,7 +33,7 @@
 
             <div class="attendance-detail-row">
                 <div class="attendance-detail-label">名前</div>
-                <div class="attendance-detail-value">
+                <div class="attendance-detail-value name-value">
                     {{ $user->name ?? '---' }}
                 </div>
             </div>
@@ -57,25 +57,63 @@
             <div class="attendance-detail-row">
                 <div class="attendance-detail-label">出勤・退勤</div>
                 <div class="attendance-detail-value time-fields">
-                    <input type="time" class="input-time" name="clock_in" value="{{ old('clock_in', $attendance->clock_in ?? '') }}">
+                    <input
+                        type="time"
+                        class="input-time"
+                        name="clock_in"
+                        value="{{ old('clock_in', $attendance->clock_in ? \Carbon\Carbon::parse($attendance->clock_in)->format('H:i') : '') }}"
+                    >
                     <span class="time-tilde">～</span>
-                    <input type="time" class="input-time" name="clock_out" value="{{ old('clock_out', $attendance->clock_out ?? '') }}">
+                    <input
+                        type="time"
+                        class="input-time"
+                        name="clock_out"
+                        value="{{ old('clock_out', $attendance->clock_out ? \Carbon\Carbon::parse($attendance->clock_out)->format('H:i') : '') }}"
+                    >
                 </div>
             </div>
             <div class="attendance-detail-divider"></div>
 
             @php
-                $breakTimes = [];
-                foreach ($attendance->breakTimes->sortBy('break_start')->values() as $break) {
-                    $breakTimes[] = [
-                        'break_start' => $break->break_start ? \Carbon\Carbon::parse($break->break_start)->format('H:i') : '',
-                        'break_end'   => $break->break_end   ? \Carbon\Carbon::parse($break->break_end)->format('H:i') : '',
-                    ];
+                // old値優先（バリデーションエラー後）: それ以外はDB値
+                $breakTimes = old('break_times');
+                if (is_null($breakTimes)) {
+                    // DBから取得（編集画面や初回表示時）
+                    $breakTimes = [];
+                    foreach ($attendance->breakTimes->sortBy('break_start') as $b) {
+                        $breakTimes[] = [
+                            'break_start' => $b->break_start ? \Carbon\Carbon::parse($b->break_start)->format('H:i') : '',
+                            'break_end'   => $b->break_end ? \Carbon\Carbon::parse($b->break_end)->format('H:i') : '',
+                        ];
+                    }
                 }
-                $breakRowCount = max(1, count($breakTimes) + 1);
+
+                // 空行が複数ある場合は1行だけに
+                $filtered = [];
+                $blankCount = 0;
+                foreach ($breakTimes as $row) {
+                    $isBlank = (empty($row['break_start']) && empty($row['break_end']));
+                    if ($isBlank) {
+                        // 最初の空行だけ残す
+                        if ($blankCount == 0) {
+                            $filtered[] = ['break_start' => '', 'break_end' => ''];
+                            $blankCount++;
+                        }
+                        // 2個目以降の空行はスキップ
+                    } else {
+                        $filtered[] = [
+                            'break_start' => $row['break_start'] ?? '',
+                            'break_end' => $row['break_end'] ?? '',
+                        ];
+                    }
+                }
+                // 休憩ゼロ件なら必ず空欄1行追加
+                if (count($filtered) == 0) {
+                    $filtered[] = ['break_start' => '', 'break_end' => ''];
+                }
             @endphp
 
-            @for($i = 0; $i < $breakRowCount; $i++)
+            @foreach($filtered as $i => $break)
                 <div class="attendance-detail-row">
                     <div class="attendance-detail-label">
                         {{ $i === 0 ? '休憩' : '休憩' . ($i + 1) }}
@@ -85,19 +123,19 @@
                             type="time"
                             class="input-time"
                             name="break_times[{{ $i }}][break_start]"
-                            value="{{ old('break_times.'.$i.'.break_start', $breakTimes[$i]['break_start'] ?? '') }}"
+                            value="{{ $break['break_start'] }}"
                         >
                         <span class="time-tilde">～</span>
                         <input
                             type="time"
                             class="input-time"
                             name="break_times[{{ $i }}][break_end]"
-                            value="{{ old('break_times.'.$i.'.break_end', $breakTimes[$i]['break_end'] ?? '') }}"
+                            value="{{ $break['break_end'] }}"
                         >
                     </div>
                 </div>
                 <div class="attendance-detail-divider"></div>
-            @endfor
+            @endforeach
 
             <div class="attendance-detail-row">
                 <div class="attendance-detail-label">備考</div>
@@ -114,7 +152,7 @@
 
     <div class="attendance-detail-btn-block">
         <button type="submit" form="attendance-detail-form" class="edit-btn">
-            {{ $attendance->id ? '修正' : '登録' }}
+            修正
         </button>
     </div>
 </div>

@@ -85,3 +85,53 @@
         font-size: 14px;
     }
 }
+
+/* 追加・修正分 */
+@media (max-width: 600px) {
+    .verify-content {
+        max-width: 100%;
+        padding: 0 12px;
+        margin-top: 40px;
+    }
+
+    .verify-message {
+        font-size: 15px;
+        margin-bottom: 18px;
+    }
+
+    .verify-btn {
+        width: 100%;
+        font-size: 15px;
+        padding: 10px 0;
+    }
+
+    .verify-resend-link {
+        font-size: 13px;
+    }
+
+    .alert-message {
+        font-size: 14px;
+        margin-bottom: 16px;
+    }
+}
+
+@media (max-width: 320px) {
+    .verify-message {
+        font-size: 14px;
+        margin-bottom: 14px;
+        line-height: 1.4;
+    }
+
+    .verify-btn {
+        font-size: 14px;
+        padding: 9px 0;
+    }
+
+    .verify-resend-link {
+        font-size: 12px;
+    }
+
+    .alert-message {
+        font-size: 13px;
+    }
+}

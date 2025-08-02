@@ -47,7 +47,6 @@ body {
     padding: 0;
     list-style: none;
     gap: 32px;
-    /* ←ナビ間の間隔を均等に */
 }
 
 .global-nav li {
@@ -87,14 +86,12 @@ body {
     border-radius: 8px;
 }
 
-/* ログアウトボタンのデフォルト状態も明るく見せる */
 .global-nav .logout-btn {
     background: none !important;
     color: #fff !important;
     opacity: 1 !important;
 }
 
-/* ホバー時の挙動を完全に合わせる */
 .global-nav a:hover,
 .global-nav .logout-btn:hover {
     background: #fff !important;
@@ -119,5 +116,57 @@ body {
 
     .logo-img {
         height: 28px;
+    }
+}
+
+@media (max-width: 600px) {
+    .header-inner {
+        flex-wrap: wrap;
+        /* 折り返しを許可 */
+        height: auto;
+        padding: 10px 14px;
+        justify-content: center;
+        /* 中央寄せ */
+        gap: 10px;
+    }
+
+    .logo-img {
+        height: 32px;
+        margin-bottom: 8px;
+    }
+
+    .global-nav {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .global-nav ul {
+        flex-wrap: wrap;
+        gap: 12px;
+        justify-content: center;
+        padding-left: 0;
+        margin: 0;
+    }
+
+    .global-nav a,
+    .global-nav .logout-btn {
+        font-size: 0.9rem;
+        padding: 6px 12px;
+        border-radius: 6px;
+    }
+}
+
+@media (max-width: 400px) {
+
+    .global-nav a,
+    .global-nav .logout-btn {
+        font-size: 0.85rem;
+        padding: 5px 10px;
+    }
+
+    .logo-img {
+        height: 28px;
+        margin-bottom: 6px;
     }
 }

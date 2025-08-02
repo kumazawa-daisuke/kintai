@@ -15,27 +15,11 @@ class AttendanceController extends Controller
     {
         $date = $request->input('date') ? Carbon::parse($request->input('date')) : Carbon::today();
 
-        // breakTimesもwithで取得
         $attendances = Attendance::with(['user', 'breakTimes'])
             ->whereDate('date', $date->format('Y-m-d'))
             ->whereNotNull('clock_in')
             ->whereNotNull('clock_out')
             ->get();
-
-        // 各レコードで再計算して表示用のプロパティを追加
-        foreach ($attendances as $attendance) {
-            $attendance->recalculateTimes(); // モデル側で break_time, total_time を更新
-
-            // break_time: nullなら空欄、そうでなければ「01:00 → 1:00」
-            $attendance->break_sum = !empty($attendance->break_time) 
-                ? \Carbon\Carbon::createFromFormat('H:i', $attendance->break_time)->format('G:i') 
-                : '';
-
-            // total_time: nullなら空欄、そうでなければ「01:00 → 1:00」
-            $attendance->work_sum = !empty($attendance->total_time) 
-                ? \Carbon\Carbon::createFromFormat('H:i', $attendance->total_time)->format('G:i') 
-                : '';
-        }
 
         return view('admin_attendance_index', compact('attendances', 'date'));
     }
@@ -128,7 +112,6 @@ class AttendanceController extends Controller
             }
         }
 
-        // ← こちらも再読み込みしてから再計算
         $attendance->load('breakTimes');
         $attendance->recalculateTimes();
         $attendance->save();

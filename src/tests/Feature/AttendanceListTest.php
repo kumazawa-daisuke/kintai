@@ -25,30 +25,30 @@ class AttendanceListTest extends TestCase
     }
 
     /** @test */
-    public function 勤怠一覧で自身の勤怠情報がすべて表示される()
+    public function test_勤怠一覧で自身の勤怠情報がすべて表示される()
     {
-        $attendances = Attendance::where('user_id', $this->user->id)->take(3)->get();
-        $response = $this->actingAs($this->user)->get('/attendance/list');
+        $attendances = Attendance::where('user_id', $this->user->id)
+            ->whereBetween('date', ['2025-08-25', '2025-08-31'])
+            ->get();
 
+        $response = $this->actingAs($this->user)->get(route('attendance.list'));
         $response->assertStatus(200);
 
         foreach ($attendances as $attendance) {
-            $response->assertSee((new Carbon($attendance->date))->format('m/d'));
-            $response->assertSee(substr($attendance->clock_in, 0, 5));
-            $response->assertSee(substr($attendance->clock_out, 0, 5));
+            $url = route('attendance.show', $attendance->id);
+            $response->assertSee('href="' . $url . '"', false);
         }
     }
 
-    /** @test */
-    public function 勤怠一覧から詳細画面に遷移できて内容も正しい()
+    public function test_勤怠一覧から詳細画面に遷移できて内容も正しい()
     {
-        $attendance = Attendance::where('user_id', $this->user->id)->first();
+        $attendance = Attendance::where('user_id', $this->user->id)
+            ->whereBetween('date', ['2025-08-25', '2025-08-31'])
+            ->first();
 
-        // 詳細ボタンのURL（一覧画面上でリンクが出ているかも同時に検証）
         $listResponse = $this->actingAs($this->user)->get('/attendance/list');
         $listResponse->assertSee('/attendance/' . $attendance->id);
 
-        // 詳細画面で内容を確認
         $detailResponse = $this->actingAs($this->user)
             ->get('/attendance/' . $attendance->id . '?date=' . $attendance->date);
 

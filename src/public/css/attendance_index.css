@@ -107,7 +107,6 @@ body {
     background: #bbb;
 }
 
-/* 月移動ボタンなど */
 .month-btn {
     display: flex;
     align-items: center;
@@ -157,6 +156,10 @@ body {
     color: #222;
 }
 
+.attendance-table-wrapper {
+    -webkit-overflow-scrolling: touch;
+}
+
 /* レスポンシブ */
 @media screen and (max-width: 850px) {
     :root {
@@ -171,20 +174,44 @@ body {
     }
 }
 
+/* 600px以下の微調整 */
 @media screen and (max-width: 600px) {
     .attendance-list-controls {
-        padding: 0 5px;
-        font-size: 12px;
+        padding: 0 8px;
+        font-size: 11px;
         height: auto;
+        flex-wrap: wrap;
+        gap: 6px;
+        justify-content: center;
+    }
+
+    .month-btn {
+        min-width: 80px;
+        font-size: 13px;
+        padding: 6px 0;
+        margin: 4px 4px;
     }
 
     .attendance-table {
-        font-size: 13px;
-        min-width: 360px;
+        font-size: 12px;
+        min-width: 300px;
     }
 
     .attendance-list-title {
-        font-size: 18px;
+        font-size: 16px;
         padding-left: 6px;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .attendance-list-controls {
+        gap: 4px;
+    }
+
+    .month-btn {
+        min-width: 70px;
+        font-size: 12px;
+        padding: 5px 0;
+        margin: 3px 3px;
     }
 }

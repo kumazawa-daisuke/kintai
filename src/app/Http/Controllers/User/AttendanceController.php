@@ -74,6 +74,7 @@ class AttendanceController extends Controller
         if ($attendance && !$attendance->clock_out) {
             $attendance->status = 'finished';
             $attendance->clock_out = Carbon::now()->format('H:i');
+            $attendance->recalculateTimes();
             $attendance->save();
 
             return redirect()->route('attendance.index')->with('success', '退勤しました。');
@@ -122,6 +123,7 @@ class AttendanceController extends Controller
                 $unfinishedBreak->save();
             }
             $attendance->status = 'working';
+            $attendance->recalculateTimes();
             $attendance->save();
         }
         return redirect()->route('attendance.index');
@@ -131,11 +133,10 @@ class AttendanceController extends Controller
     {
         $user = Auth::user();
 
-        // 表示したい月を決定（例：2024-07など）
+        // 表示したい月を決定
         $yearMonth = $request->input('month', now()->format('Y-m'));
         [$year, $month] = explode('-', $yearMonth);
 
-        // 月初・月末
         $firstDay = Carbon::create($year, $month, 1);
         $lastDay = $firstDay->copy()->endOfMonth();
 
@@ -160,37 +161,20 @@ class AttendanceController extends Controller
         foreach ($dates as $date) {
             $attendance = $attendances->get($date->toDateString());
 
-            $clockIn = $clockOut = $breakSum = $workSum = null;
-
-            if ($attendance) {
-                if ($attendance->clock_in) {
-                    $clockIn = Carbon::parse($attendance->clock_in)->format('H:i');
-                }
-                if ($attendance->clock_out) {
-                    $clockOut = Carbon::parse($attendance->clock_out)->format('H:i');
-                }
-
-                // 再計算（break_time, total_time を生成）
-                if ($attendance->clock_in && $attendance->clock_out) {
-                    $attendance->recalculateTimes();
-
-                    $breakSum = $attendance->break_time
-                        ? Carbon::createFromFormat('H:i', $attendance->break_time)->format('G:i')
-                        : '';
-
-                    $workSum = $attendance->total_time
-                        ? Carbon::createFromFormat('H:i', $attendance->total_time)->format('G:i')
-                        : '';
-                }
-            }
+            // clock_in, clock_outもbladeで直接書けるなら不要。どうしても変数で渡したいときは下記
+            $clockIn = $attendance && $attendance->clock_in
+                ? Carbon::parse($attendance->clock_in)->format('H:i')
+                : '';
+            $clockOut = $attendance && $attendance->clock_out
+                ? Carbon::parse($attendance->clock_out)->format('H:i')
+                : '';
 
             $records[] = [
                 'date'        => $date,
                 'attendance'  => $attendance,
                 'clock_in'    => $clockIn,
                 'clock_out'   => $clockOut,
-                'break_sum'   => $breakSum,
-                'work_sum'    => $workSum,
+                // 'break_sum'や'work_sum'は不要！モデルのアクセサで呼ぶ
             ];
         }
 
@@ -204,9 +188,8 @@ class AttendanceController extends Controller
         $user = Auth::user();
 
         if ($id != 0) {
-            $attendance = Attendance::where('user_id', $user->id)->findOrFail($id);
+            $attendance = Attendance::with(['user', 'breakTimes', 'correctionRequests'])->where('user_id', $user->id)->findOrFail($id);
         } else {
-            // 未登録日対応: 日付をパラメータから取得
             $date = $request->input('date');
             $attendance = new Attendance([
                 'user_id' => $user->id,
@@ -216,15 +199,10 @@ class AttendanceController extends Controller
                 'reason' => null,
             ]);
             $attendance->setRelation('breakTimes', collect());
+            $attendance->setRelation('correctionRequests', collect());
+            $attendance->setRelation('user', $user);
         }
 
-        // ここで承認待ち申請があるかを判定
-        $isCorrectionPending = false;
-        if (!empty($attendance->id)) {
-            $isCorrectionPending = $attendance->correctionRequests()
-                ->where('status', 'pending')->exists();
-        }
-
-        return view('attendance_show', compact('attendance', 'isCorrectionPending'));
+        return view('attendance_show', compact('attendance'));
     }
 }

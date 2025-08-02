@@ -124,9 +124,7 @@ body {
 
 .value-3col .col-right {
     justify-self: right;
-    /* ←右揃えに修正 */
     text-align: right;
-    /* ←右揃えに修正 */
     width: 100%;
     padding-right: 0;
 }
@@ -195,6 +193,15 @@ body {
 
 .error-list-item {
     color: #d00;
+}
+
+.edit-btn.approved-btn,
+.edit-btn.large-btn.approved-btn {
+    background: #696969;
+    color: #fff;
+    cursor: not-allowed;
+    border: none;
+    box-shadow: none;
 }
 
 /* --- スマホ対応 --- */

@@ -23,7 +23,7 @@ class CreateCorrectionRequestsTable extends Migration
             $table->time('clock_out_after')->nullable();
             $table->text('reason_before')->nullable();
             $table->text('reason_after')->nullable();
-            $table->json('breaks_before')->nullable(); // [{"break_start": "...", "break_end": "..."}]
+            $table->json('breaks_before')->nullable();
             $table->json('breaks_after')->nullable();
 
             $table->timestamps();

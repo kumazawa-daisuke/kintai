@@ -97,8 +97,8 @@ class CorrectionRequestController extends Controller
             'clock_out_after'    => $request->clock_out,
             'reason_before'        => $attendance->reason ?? null,
             'reason_after'         => $request->reason,
-            'breaks_before'      => $breaks_before ? json_encode($breaks_before, JSON_UNESCAPED_UNICODE) : null,
-            'breaks_after'       => $breaks_after ? json_encode($breaks_after, JSON_UNESCAPED_UNICODE) : null,
+            'breaks_before' => $breaks_before ?: null,
+            'breaks_after'  => $breaks_after ?: null,
         ]);
 
         return redirect()->route('correction_request.index')->with('success', '修正申請を登録しました');

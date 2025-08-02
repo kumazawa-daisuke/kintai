@@ -47,8 +47,8 @@
                         <td>{{ $attendance->user->name ?? '-' }}</td>
                         <td>{{ $attendance->clock_in ? \Carbon\Carbon::parse($attendance->clock_in)->format('H:i') : '-' }}</td>
                         <td>{{ $attendance->clock_out ? \Carbon\Carbon::parse($attendance->clock_out)->format('H:i') : '-' }}</td>
-                        <td>{{ $attendance->break_sum }}</td>
-                        <td>{{ $attendance->work_sum }}</td>
+                        <td>{{ $attendance->break_time_display }}</td>
+                        <td>{{ $attendance->total_time_display }}</td>
                         <td>
                             <a href="{{ route('admin.attendances.show', $attendance->id ?? 0) }}?user_id={{ $attendance->user_id ?? '' }}&date={{ $attendance->date ?? $date->toDateString() }}" class="detail-link">詳細</a>
                         </td>

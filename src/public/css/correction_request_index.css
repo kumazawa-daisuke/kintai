@@ -136,3 +136,52 @@ body {
         min-width: 680px;
     }
 }
+
+@media (max-width: 600px) {
+    .request-list-container {
+        padding: 10px 8px;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+    .request-list-title {
+        font-size: 18px;
+        padding-left: 8px;
+        margin-bottom: 20px;
+    }
+
+    .request-list-tabs {
+        gap: 12px;
+        padding-left: 4px;
+        flex-wrap: wrap;
+    }
+
+    .request-tab {
+        font-size: 14px;
+        padding: 6px 16px;
+        flex-grow: 1;
+        text-align: center;
+        min-width: 100px;
+    }
+
+    .request-table {
+        font-size: 12px;
+        min-width: 320px;
+    }
+
+    .request-table th,
+    .request-table td {
+        padding: 8px 6px;
+    }
+
+    .status-badge {
+        font-size: 12px;
+        padding: 3px 10px;
+        min-width: 50px;
+    }
+
+    .detail-link {
+        padding: 2px 8px;
+        font-size: 13px;
+    }
+}
